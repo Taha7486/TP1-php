@@ -16,6 +16,13 @@ if (isset($_GET['value'])) {
     $modules = isset($_SESSION['modules']) ? $_SESSION['modules'] : [];
     $remarque = isset($_SESSION['remarques']) ? $_SESSION['remarques'] : '';
 }
+if (isset($_POST['reset_session'])) {
+    session_destroy();
+    session_unset();
+    header("Location: formulaire.php"); 
+    exit;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -199,8 +206,10 @@ if (isset($_GET['value'])) {
             <button type="button" onclick="addField('langues-container', 'langues', 'Langues parlées')">Ajouter une langue</button><br><br>
 
             <input type="submit" name="envoyer" value="Envoyer">
-            <input type="reset" value="Effacer">
         </div>
+    </form>
+    <form method="post">
+    <input type="submit" name="reset_session" value="Effacer">
     </form>
 
     <script>
