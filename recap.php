@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once __DIR__ . '/db.php';
 
 // Stockage des données en session
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -7,6 +8,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $_SESSION['prenom'] = $_POST['prenom'];
     $_SESSION['age'] = $_POST['age'];
     $_SESSION['tel_num'] = $_POST['tel_num'];
+    // Normaliser l'email (trim + minuscules) pour valider et stocker
+    $_POST['email'] = strtolower(trim($_POST['email']));
     $_SESSION['email'] = $_POST['email'];
     $_SESSION['filiere'] = isset($_POST['filiere']) ? $_POST['filiere'] : '';
     $_SESSION['annee'] = isset($_POST['annee']) ? $_POST['annee'] : '';
@@ -32,6 +35,138 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $_SESSION['document'] = "Erreur lors du téléchargement";
     }
     } 
+    // Validation email côté PHP
+    if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+        $_SESSION['error'] = 'Adresse email invalide.';
+    } else {
+        // Insertion ou modification selon le mode
+        try {
+            ensure_schema();
+            $pdo = get_pdo();
+
+            $mode = isset($_POST['mode']) ? $_POST['mode'] : '';
+            $originalEmail = isset($_POST['original_email']) ? strtolower(trim($_POST['original_email'])) : '';
+
+            if ($mode === 'modifier' && !empty($originalEmail)) {
+                // Cas modification
+                if ($originalEmail === $_POST['email']) {
+                    // Email inchangé → mise à jour directe
+                    $sql = "UPDATE users SET
+                                nom = :nom,
+                                prenom = :prenom,
+                                age = :age,
+                                tel_num = :tel_num,
+                                annee = :annee,
+                                filiere = :filiere,
+                                langues = :langues,
+                                centres = :centres,
+                                projects = :projects,
+                                modules = :modules,
+                                remarques = :remarques,
+                                document_path = :document_path,
+                                updated_at = CURRENT_TIMESTAMP
+                            WHERE email = :email";
+
+                    $stmt = $pdo->prepare($sql);
+                } else {
+                    // Email modifié → vérifier collision
+                    $check = $pdo->prepare("SELECT 1 FROM users WHERE email = :email LIMIT 1");
+                    $check->execute([':email' => $_POST['email']]);
+                    if ($check->fetchColumn()) {
+                        $_SESSION['error'] = "Cet email existe déjà. Impossible de modifier.";
+                        throw new Exception('Email already exists');
+                    }
+
+                    // Mettre à jour la clé primaire (changer l'email)
+                    $sql = "UPDATE users SET
+                                email = :email,
+                                nom = :nom,
+                                prenom = :prenom,
+                                age = :age,
+                                tel_num = :tel_num,
+                                annee = :annee,
+                                filiere = :filiere,
+                                langues = :langues,
+                                centres = :centres,
+                                projects = :projects,
+                                modules = :modules,
+                                remarques = :remarques,
+                                document_path = :document_path,
+                                updated_at = CURRENT_TIMESTAMP
+                            WHERE email = :original_email";
+
+                    $stmt = $pdo->prepare($sql);
+                }
+
+                $languesJson = json_encode($_SESSION['langues'] ?? []);
+                $centresJson = json_encode($_SESSION['centres'] ?? []);
+                $projectsJson = json_encode($_SESSION['projects'] ?? []);
+                $modulesJson = json_encode($_SESSION['modules'] ?? []);
+
+                $params = [
+                    ':email' => $_POST['email'],
+                    ':nom' => $_POST['nom'],
+                    ':prenom' => $_POST['prenom'],
+                    ':age' => !empty($_POST['age']) ? (int)$_POST['age'] : null,
+                    ':tel_num' => $_POST['tel_num'] ?? null,
+                    ':annee' => $_POST['annee'] ?? null,
+                    ':filiere' => $_POST['filiere'] ?? null,
+                    ':langues' => $languesJson,
+                    ':centres' => $centresJson,
+                    ':projects' => $projectsJson,
+                    ':modules' => $modulesJson,
+                    ':remarques' => $_SESSION['remarques'] ?? null,
+                    ':document_path' => $_SESSION['document'] ?? null,
+                ];
+                if ($originalEmail !== $_POST['email']) {
+                    $params[':original_email'] = $originalEmail;
+                }
+                $stmt->execute($params);
+            } else {
+                // Cas insertion (nouvel enregistrement) → bloquer si email déjà existant
+                $check = $pdo->prepare("SELECT 1 FROM users WHERE email = :email LIMIT 1");
+                $check->execute([':email' => $_POST['email']]);
+                if ($check->fetchColumn()) {
+                    $_SESSION['error'] = "Cet email existe déjà. L'envoi est bloqué.";
+                } else {
+                    $sql = "INSERT INTO users (
+                                email, nom, prenom, age, tel_num, annee, filiere,
+                                langues, centres, projects, modules, remarques, document_path
+                            ) VALUES (
+                                :email, :nom, :prenom, :age, :tel_num, :annee, :filiere,
+                                :langues, :centres, :projects, :modules, :remarques, :document_path
+                            )";
+
+                    $stmt = $pdo->prepare($sql);
+
+                    $languesJson = json_encode($_SESSION['langues'] ?? []);
+                    $centresJson = json_encode($_SESSION['centres'] ?? []);
+                    $projectsJson = json_encode($_SESSION['projects'] ?? []);
+                    $modulesJson = json_encode($_SESSION['modules'] ?? []);
+
+                    $stmt->execute([
+                        ':email' => $_POST['email'],
+                        ':nom' => $_POST['nom'],
+                        ':prenom' => $_POST['prenom'],
+                        ':age' => !empty($_POST['age']) ? (int)$_POST['age'] : null,
+                        ':tel_num' => $_POST['tel_num'] ?? null,
+                        ':annee' => $_POST['annee'] ?? null,
+                        ':filiere' => $_POST['filiere'] ?? null,
+                        ':langues' => $languesJson,
+                        ':centres' => $centresJson,
+                        ':projects' => $projectsJson,
+                        ':modules' => $modulesJson,
+                        ':remarques' => $_SESSION['remarques'] ?? null,
+                        ':document_path' => $_SESSION['document'] ?? null,
+                    ]);
+                }
+            }
+        } catch (Throwable $e) {
+            if (!isset($_SESSION['error'])) {
+                $_SESSION['error'] = 'Erreur base de données: ' . $e->getMessage();
+            }
+        }
+    }
 }
 
 // Récupération des données
@@ -60,6 +195,12 @@ $document = isset($_SESSION['document']) ? $_SESSION['document'] : 'Aucun fichie
 <body>
     <h1>Fiche de Renseignements - Récapitulatif</h1>
     <hr>
+    <?php if (!empty($_SESSION['error'])): ?>
+        <div style="color: #b00020; font-weight: bold;">
+            <?= htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?>
+        </div>
+        <hr>
+    <?php endif; ?>
 
     <h2>Renseignements Personnels</h2>
     <table border="1" cellpadding="5" cellspacing="0">

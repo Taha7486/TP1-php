@@ -24,7 +24,6 @@ if (isset($_POST['reset_session'])) {
     header("Location: formulaire.php"); 
     exit;
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -39,6 +38,10 @@ if (isset($_POST['reset_session'])) {
     <hr>
     
     <form action="recap.php" method="post" enctype="multipart/form-data">
+        <?php if (isset($_GET['value'])): ?>
+        <input type="hidden" name="mode" value="modifier">
+        <input type="hidden" name="original_email" value="<?php echo isset($email) ? htmlspecialchars($email) : ''; ?>">
+        <?php endif; ?>
         <h3>Renseignements Personnels</h3>
         <table>
             <tr>
