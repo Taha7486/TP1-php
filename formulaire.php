@@ -127,7 +127,7 @@ if (isset($_GET['value'])) {
         <!-- Section Remarques -->
         <h3>Vos remarques</h3>
         <textarea name="remarques" rows="5" cols="60"><?php echo isset($_GET['value']) ? $remarque : ''; ?></textarea><br>
-
+        <input type="file" name="document"><br>
         <?php if (!isset($_GET['value'])) : ?>
             <button type="button" onclick="showAdditionalFields()">Suivant</button>
             <button type="reset">Réinitialiser</button>
@@ -204,7 +204,7 @@ if (isset($_GET['value'])) {
     </form>
 
     <script>
-        // Fonction pour afficher les champs supplémentaires
+        
         function showAdditionalFields() {
             document.getElementById('additionalFields').style.display = 'block';
             document.querySelector('button[onclick="showAdditionalFields()"]').style.display = 'none';

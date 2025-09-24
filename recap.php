@@ -15,6 +15,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $_SESSION['projects'] = isset($_POST['projects']) ? $_POST['projects'] : [];
     $_SESSION['modules'] = isset($_POST['modules']) ? $_POST['modules'] : [];
     $_SESSION['remarques'] = isset($_POST['remarques']) ? $_POST['remarques'] : '';
+    if (isset($_FILES['document']) && $_FILES['document']['error'] === UPLOAD_ERR_OK) {
+    $uploadDir = "uploads/";
+    if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0777, true); // créer le dossier s'il n'existe pas
+    }
+
+    $fileTmpPath = $_FILES['document']['tmp_name'];
+    $fileName = basename($_FILES['document']['name']);
+    $destPath = $uploadDir . $fileName;
+
+    // Déplacer le fichier
+    if (move_uploaded_file($fileTmpPath, $destPath)) {
+        $_SESSION['document'] = $destPath;
+    } else {
+        $_SESSION['document'] = "Erreur lors du téléchargement";
+    }
+    } 
 }
 
 // Récupération des données
@@ -30,6 +47,7 @@ $centres = isset($_SESSION['centres']) ? $_SESSION['centres'] : ['Non défini'];
 $projects = isset($_SESSION['projects']) ? $_SESSION['projects'] : ['Non défini'];
 $modules = isset($_SESSION['modules']) ? $_SESSION['modules'] : ['Non défini'];
 $remarque = isset($_SESSION['remarques']) ? $_SESSION['remarques'] : 'Non défini';
+$document = isset($_SESSION['document']) ? $_SESSION['document'] : 'Aucun fichier fourni';
 ?>
 
 <!DOCTYPE html>
@@ -96,6 +114,16 @@ $remarque = isset($_SESSION['remarques']) ? $_SESSION['remarques'] : 'Non défin
     <p><?= htmlspecialchars($remarque); ?></p>
     <hr>
     <?php endif; ?>
+    
+    <h2>Fichier Uploadé</h2>
+    <p>
+    <?php if ($document !== "Aucun fichier fourni" && $document !== "Erreur lors du téléchargement"): ?>
+        <a href="<?= $document; ?>" target="_blank">Voir le fichier</a>
+    <?php else: ?>
+        <?= $document; ?>
+    <?php endif; ?>
+    </p>
+    <hr>
 
     <h2>Informations Complémentaires</h2>
     <table border="1" cellpadding="5" cellspacing="0">
