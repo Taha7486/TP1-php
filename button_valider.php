@@ -13,7 +13,7 @@ $centres = isset($_SESSION['centres']) ? $_SESSION['centres'] : ['Non défini'];
 $projects = isset($_SESSION['projects']) ? $_SESSION['projects'] : ['Non défini'];
 $modules = isset($_SESSION['modules']) ? $_SESSION['modules'] : ['Non défini'];
 $remarque = isset($_SESSION['remarques']) ? $_SESSION['remarques'] : 'Non défini';
-$document = isset($_SESSION['document']) ? $_SESSION['document'] : 'Aucun fichier fourni';
+$document = isset($_SESSION['document']) ? basename($_SESSION['document']) : 'Non défini';
 
 
 $content = "==================== FICHE DE RENSEIGNEMENTS ====================\n\n";
@@ -37,7 +37,7 @@ if (!empty($remarque) && $remarque !== 'Non défini') {
     $content .= "\n>>> REMARQUES <<<\n";
     $content .= "$remarque\n";
 }
-$content .= "Fichier Telechargé : " . $_SESSION['document'] . "\n";
+$content .= "\nFichier Téléchargé :\n    - $document\n";
 
 $content .= "\n>>> INFORMATIONS COMPLÉMENTAIRES <<<\n\n";
 

@@ -15,6 +15,8 @@ if (isset($_GET['value'])) {
     $projects = isset($_SESSION['projects']) ? $_SESSION['projects'] : [];
     $modules = isset($_SESSION['modules']) ? $_SESSION['modules'] : [];
     $remarque = isset($_SESSION['remarques']) ? $_SESSION['remarques'] : '';
+    $document = isset($_SESSION['document']) ? $_SESSION['document'] : '';
+
 }
 ?>
 
@@ -127,7 +129,22 @@ if (isset($_GET['value'])) {
         <!-- Section Remarques -->
         <h3>Vos remarques</h3>
         <textarea name="remarques" rows="5" cols="60"><?php echo isset($_GET['value']) ? $remarque : ''; ?></textarea><br>
-        <input type="file" name="document"><br>
+
+        <h4>Fichier Uploadé :</h4>
+        <?php if (isset($_GET['value']) && !empty($document)): ?>
+        <?php if (file_exists($document)): ?>
+            <p>
+            Fichier actuel : 
+            <a href="<?= htmlspecialchars($document); ?>" target="_blank"><?= htmlspecialchars(basename($document)); ?></a>
+            </p>
+        <p>Si vous voulez le remplacer, choisissez un nouveau fichier :</p>
+        <?php else: ?>
+        <p>Aucun fichier trouvé.</p>
+        <?php endif; ?>
+        <?php endif; ?>
+
+<input type="file" name="document"><br>
+
         <?php if (!isset($_GET['value'])) : ?>
             <button type="button" onclick="showAdditionalFields()">Suivant</button>
             <button type="reset">Réinitialiser</button>
