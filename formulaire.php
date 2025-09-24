@@ -42,7 +42,7 @@ if (isset($_GET['value'])) {
             </tr>
             <tr>
                 <td><label for="age">Âge :</label></td>
-                <td><input type="number" id="age" name="age" value="<?php echo isset($_GET['value']) ? $age : ''; ?>" required min="0" max="100"></td>
+                <td><input type="number" id="age" name="age" value="<?php echo isset($_GET['value']) ? $age : ''; ?>" required min="0"></td>
             </tr>
             <tr>
                 <td><label for="tel_num">Numéro de Téléphone :</label></td>
