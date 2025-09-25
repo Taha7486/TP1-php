@@ -42,7 +42,7 @@ session_start();
     <h2>Stages / Expériences</h2>
     <div id="stages-container">
         <div>
-            <input type="text" name="stages[poste][]" placeholder="Intitulé du poste" required>
+            <input type="text" name="stages[poste][]" placeholder="Intitule du poste" required>
             <input type="text" name="stages[entreprise][]" placeholder="Entreprise" required>
         </div>
     </div>
@@ -52,7 +52,7 @@ session_start();
     <h2>Compétences</h2>
     <div id="competences-container">
         <div>
-            <input type="text" name="competences[]" placeholder="Compétence" required>
+            <input type="text" name="competences[]" placeholder="Competence" required>
         </div>
     </div>
     <button type="button" onclick="addCompetence()">Ajouter une compétence</button>
@@ -63,8 +63,8 @@ session_start();
         <div>
             <input type="text" name="langues[nom][]" placeholder="Langue" required>
             <select name="langues[niveau][]">
-                <option value="Débutant">Débutant</option>
-                <option value="Intermédiaire">Intermédiaire</option>
+                <option value="Debutant">Debutant</option>
+                <option value="Intermediaire">Intermediaire</option>
                 <option value="Courant">Courant</option>
             </select>
         </div>
@@ -72,37 +72,37 @@ session_start();
     <button type="button" onclick="addLangue()">Ajouter une langue</button>
     <hr>
 
-    <h2>Centres d'intérêt</h2>
+    <h2>Centres d'interet</h2>
     <div id="centres-container">
         <div>
-            <input type="text" name="centres[]" placeholder="Centre d'intérêt" required>
+            <input type="text" name="centres[]" placeholder="Centre d'interet" required>
         </div>
     </div>
     <button type="button" onclick="addCentre()">Ajouter un centre</button>
     <hr>
 
-    <input type="submit" value="Générer mon CV">
+    <input type="submit" value="Generer mon CV">
 </form>
 
 <script>
 function addFormation() {
     document.getElementById('formations-container').insertAdjacentHTML('beforeend', `
         <div>
-            <input type="text" name="formations[titre][]" placeholder="Diplôme / Formation" required>
-            <input type="text" name="formations[description][]" placeholder="Description (optionnel)">
+            <input type="text" name="formations[titre][]" placeholder="Diplome / Formation" required>
+            <input type="text" name="formations[description][]" placeholder="Description ">
         </div>`);
 }
 function addStage() {
     document.getElementById('stages-container').insertAdjacentHTML('beforeend', `
         <div>
-            <input type="text" name="stages[poste][]" placeholder="Intitulé du poste" required>
+            <input type="text" name="stages[poste][]" placeholder="Intitule du poste" required>
             <input type="text" name="stages[entreprise][]" placeholder="Entreprise" required>
         </div>`);
 }
 function addCompetence() {
     document.getElementById('competences-container').insertAdjacentHTML('beforeend', `
         <div>
-            <input type="text" name="competences[]" placeholder="Compétence" required>
+            <input type="text" name="competences[]" placeholder="Competence" required>
         </div>`);
 }
 function addLangue() {
@@ -110,8 +110,8 @@ function addLangue() {
         <div>
             <input type="text" name="langues[nom][]" placeholder="Langue" required>
             <select name="langues[niveau][]">
-                <option value="Débutant">Débutant</option>
-                <option value="Intermédiaire">Intermédiaire</option>
+                <option value="Debutant">Debutant</option>
+                <option value="Intermediaire">Intermediaire</option>
                 <option value="Courant">Courant</option>
             </select>
         </div>`);
@@ -119,7 +119,7 @@ function addLangue() {
 function addCentre() {
     document.getElementById('centres-container').insertAdjacentHTML('beforeend', `
         <div>
-            <input type="text" name="centres[]" placeholder="Centre d'intérêt" required>
+            <input type="text" name="centres[]" placeholder="Centre d'interet" required>
         </div>`);
 }
 </script>

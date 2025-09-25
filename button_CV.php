@@ -100,7 +100,7 @@ if (!empty($langues_cv['nom'])) {
 
 if (!empty($centres)) {
     $pdf->SetFont('Arial', 'B', 14);
-    $pdf->Cell(0, 10, utf8_decode("Centres d'intérêt"), 0, 1);
+    $pdf->Cell(0, 10, utf8_decode("Centres d'interet"), 0, 1);
     $pdf->SetFont('Arial', '', 12);
     foreach ($centres as $c) {
         $pdf->Cell(0, 8, "- $c", 0, 1);
