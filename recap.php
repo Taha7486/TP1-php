@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// Stockage des données en session
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $_SESSION['nom'] = $_POST['nom'];
     $_SESSION['prenom'] = $_POST['prenom'];
@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_FILES['document']) && $_FILES['document']['error'] === UPLOAD_ERR_OK) {
     $uploadDir = "uploads/";
     if (!is_dir($uploadDir)) {
-        mkdir($uploadDir, 0777, true); // créer le dossier s'il n'existe pas
+        mkdir($uploadDir, 0777, true); 
     }
 
     $fileTmpPath = $_FILES['document']['tmp_name'];
@@ -167,6 +167,10 @@ $document = isset($_SESSION['document']) ? $_SESSION['document'] : 'Aucun fichie
         <form action="button_modifier.php" method="POST" style="display: inline;">
             <button type="submit">Modifier</button>
         </form>
+        <form action="formulaire_CV.php" method="POST" style="display: inline;">
+            <button type="submit">Generer CV</button>
+        </form>
+        
     </div>
 </body>
 </html>
