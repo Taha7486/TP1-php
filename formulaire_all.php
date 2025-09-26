@@ -44,6 +44,7 @@ $cover_letter = $prefill ? ($_SESSION['cover_letter'] ?? '') : '';
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<main>
     <h1>Formulaire unique: Fiche + CV</h1>
     <form action="recap.php" method="post" enctype="multipart/form-data">
         <h2>Renseignements Personnels</h2>
@@ -370,6 +371,7 @@ $cover_letter = $prefill ? ($_SESSION['cover_letter'] ?? '') : '';
             document.querySelectorAll('input[name="filiere"]').forEach(function(el){ el.addEventListener('change', updateModules); });
         });
     </script>
+</main>
 </body>
 </html>
 

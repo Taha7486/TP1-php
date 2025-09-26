@@ -280,6 +280,7 @@ $cover_letter = isset($_SESSION['cover_letter']) ? $_SESSION['cover_letter'] : '
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<main>
     <hr>
     <?php if (!empty($_SESSION['error'])): ?>
         <div style="color: #b00020; font-weight: bold;">
@@ -519,5 +520,6 @@ $cover_letter = isset($_SESSION['cover_letter']) ? $_SESSION['cover_letter'] : '
             return true;
         }
     </script>
+<main>
 </body>
 </html>

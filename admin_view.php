@@ -27,6 +27,7 @@ try {
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<main>
 	<a href="admin.php">&larr; Retour</a>
 	<h1>Détail candidature</h1>
 	<?php if (!empty($err)): ?>
@@ -69,6 +70,7 @@ try {
 			</form>
 		</div>
 	<?php endif; ?>
+<main>
 </body>
 </html>
 

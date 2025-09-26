@@ -20,6 +20,7 @@ try {
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<main style="max-width: 1200px;">
 	<h1>Tableau de bord - Candidatures de stage</h1>
 	<?php if (!empty($err)): ?>
 		<div style="color:#b00020; font-weight:bold;">Erreur: <?= htmlspecialchars($err); ?></div>
@@ -73,6 +74,7 @@ try {
 			</tr>
 		<?php endforeach; endif; ?>
 	</table>
+</main>
 </body>
 </html>
 
