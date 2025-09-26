@@ -1,5 +1,6 @@
 <?php
 session_start();
+require('fiche_db.php');
 
 $nom = isset($_SESSION['nom']) ? $_SESSION['nom'] : 'Non défini';
 $prenom = isset($_SESSION['prenom']) ? $_SESSION['prenom'] : 'Non défini';
@@ -14,6 +15,40 @@ $projects = isset($_SESSION['projects']) ? $_SESSION['projects'] : ['Non défini
 $modules = isset($_SESSION['modules']) ? $_SESSION['modules'] : ['Non défini'];
 $remarque = isset($_SESSION['remarques']) ? $_SESSION['remarques'] : 'Non défini';
 $document = isset($_SESSION['document']) ? basename($_SESSION['document']) : 'Non défini';
+
+// Sauvegarde dans la base
+$pdo = get_pdo_fiche();
+
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM fiche_renseignement WHERE email = :email");
+$stmt->execute([':email' => $email]);
+$emailExists = $stmt->fetchColumn();
+
+if ($emailExists) {
+    die("Erreur : une fiche avec cet email existe déjà !");
+}
+
+$stmt = $pdo->prepare("
+    INSERT INTO fiche_renseignement 
+    (email, nom, prenom, age, telephone, annee, filiere, modules, projets, langues, centres, remarques, document)
+    VALUES 
+    (:email, :nom, :prenom, :age, :telephone, :annee, :filiere, :modules, :projets, :langues, :centres, :remarques, :document)
+");
+
+$stmt->execute([
+    ':email'    => $email,
+    ':nom'      => $nom,
+    ':prenom'   => $prenom,
+    ':age'      => $age,
+    ':telephone'=> $tel_num,
+    ':annee'    => $annee,
+    ':filiere'  => $filiere,
+    ':modules'  => json_encode($modules, JSON_UNESCAPED_UNICODE),
+    ':projets'  => json_encode($projects, JSON_UNESCAPED_UNICODE),
+    ':langues'  => json_encode($langues, JSON_UNESCAPED_UNICODE),
+    ':centres'  => json_encode($centres, JSON_UNESCAPED_UNICODE),
+    ':remarques'=> $remarque,
+    ':document' => $document
+]);
 
 $content = "==================== FICHE DE RENSEIGNEMENTS ====================\n\n";
 
