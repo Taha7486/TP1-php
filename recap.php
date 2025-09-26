@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-
+// Stockage des données en session
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $_SESSION['nom'] = $_POST['nom'];
     $_SESSION['prenom'] = $_POST['prenom'];
@@ -15,22 +15,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $_SESSION['projects'] = isset($_POST['projects']) ? $_POST['projects'] : [];
     $_SESSION['modules'] = isset($_POST['modules']) ? $_POST['modules'] : [];
     $_SESSION['remarques'] = isset($_POST['remarques']) ? $_POST['remarques'] : '';
+
     if (isset($_FILES['document']) && $_FILES['document']['error'] === UPLOAD_ERR_OK) {
-    $uploadDir = "uploads/";
-    if (!is_dir($uploadDir)) {
-        mkdir($uploadDir, 0777, true); 
-    }
+        $uploadDir = "uploads/";
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true); 
+        }
 
-    $fileTmpPath = $_FILES['document']['tmp_name'];
-    $fileName = basename($_FILES['document']['name']);
-    $destPath = $uploadDir . $fileName;
+        $fileTmpPath = $_FILES['document']['tmp_name'];
+        $fileName = basename($_FILES['document']['name']);
+        $destPath = $uploadDir . $fileName;
 
-    // Déplacer le fichier
-    if (move_uploaded_file($fileTmpPath, $destPath)) {
-        $_SESSION['document'] = $destPath;
-    } else {
-        $_SESSION['document'] = "Erreur lors du téléchargement";
-    }
+        // Déplacer le fichier
+        if (move_uploaded_file($fileTmpPath, $destPath)) {
+            $_SESSION['document'] = $destPath;
+        } else {
+            $_SESSION['document'] = "Erreur lors du téléchargement";
+        }
     } 
 }
 

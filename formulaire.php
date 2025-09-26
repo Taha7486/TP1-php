@@ -16,7 +16,13 @@ if (isset($_GET['value'])) {
     $modules = isset($_SESSION['modules']) ? $_SESSION['modules'] : [];
     $remarque = isset($_SESSION['remarques']) ? $_SESSION['remarques'] : '';
     $document = isset($_SESSION['document']) ? $_SESSION['document'] : '';
+}
 
+if (isset($_POST['reset_session'])) {
+    session_destroy();
+    session_unset();
+    header("Location: formulaire.php"); 
+    exit;
 }
 ?>
 
@@ -143,14 +149,13 @@ if (isset($_GET['value'])) {
         <?php endif; ?>
         <?php endif; ?>
 
-<input type="file" name="document"><br>
+        <input type="file" name="document"><br>
 
         <?php if (!isset($_GET['value'])) : ?>
             <button type="button" onclick="showAdditionalFields()">Suivant</button>
-            <button type="reset">Réinitialiser</button>
         <?php endif; ?>
 
-        <!-- Section Informations Complémentaires (affichage conditionnel) -->
+        <!-- Section Informations Complémentaires -->
         <div id="additionalFields" <?php if (!isset($_GET['value'])) echo 'style="display: none;"'; ?>>
             <hr>
             <h3>Informations Complémentaires</h3>
@@ -216,17 +221,20 @@ if (isset($_GET['value'])) {
             <button type="button" onclick="addField('langues-container', 'langues', 'Langues parlées')">Ajouter une langue</button><br><br>
 
             <input type="submit" name="envoyer" value="Envoyer">
-            <input type="reset" value="Effacer">
         </div>
+    </form>
+    <form method="post">
+    <input type="submit" name="reset_session" value="Réinitialiser">
     </form>
 
     <script>
-        
+        // Fonction pour afficher les champs supplémentaires
         function showAdditionalFields() {
             document.getElementById('additionalFields').style.display = 'block';
             document.querySelector('button[onclick="showAdditionalFields()"]').style.display = 'none';
         }
 
+        // Fonction pour ajouter un champs
         function addField(containerId, inputName, placeholder) {
             const container = document.getElementById(containerId);
             const div = document.createElement("div");

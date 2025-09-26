@@ -15,7 +15,6 @@ $modules = isset($_SESSION['modules']) ? $_SESSION['modules'] : ['Non défini'];
 $remarque = isset($_SESSION['remarques']) ? $_SESSION['remarques'] : 'Non défini';
 $document = isset($_SESSION['document']) ? basename($_SESSION['document']) : 'Non défini';
 
-
 $content = "==================== FICHE DE RENSEIGNEMENTS ====================\n\n";
 
 $content .= ">>> RENSEIGNEMENTS PERSONNELS <<<\n";
