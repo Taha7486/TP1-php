@@ -2,14 +2,13 @@
 session_start();
 require('fpdf.php');
 
-$nom       = $_SESSION['nom'] ?? '';
-$prenom    = $_SESSION['prenom'] ?? '';
-$email     = $_SESSION['email'] ?? '';
-$tel_num   = $_SESSION['tel_num'] ?? '';
-
-$adresse      = $_POST['adresse'] ?? '';
-$ville        = $_POST['ville'] ?? '';
-$linkedin     = $_POST['linkedin'] ?? '';
+$nom       = $_POST['nom'] ?? '';
+$prenom    = $_POST['prenom'] ?? '';
+$email     = $_POST['email'] ?? '';
+$tel_num   = $_POST['tel_num'] ?? '';
+$adresse   = $_POST['adresse'] ?? '';
+$ville     = $_POST['ville'] ?? '';
+$linkedin  = $_POST['linkedin'] ?? '';
 
 $formations   = $_POST['formations'] ?? []; 
 $stages       = $_POST['stages'] ?? [];     
@@ -22,7 +21,7 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
     if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
 
     $fileTmpPath = $_FILES['photo']['tmp_name'];
-    $fileName = basename($_FILES['photo']['name']);
+    $fileName = time() . "_" . basename($_FILES['photo']['name']);
     $destPath = $uploadDir . $fileName;
 
     if (move_uploaded_file($fileTmpPath, $destPath)) {
@@ -30,8 +29,6 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
     } else {
         $photo = '';
     }
-} else {
-    $photo = $_SESSION['photo'] ?? '';
 }
 
 $pdf = new FPDF();
@@ -85,7 +82,6 @@ if (!empty($competences)) {
     }
     $pdf->Ln(5);
 }
-
 
 if (!empty($langues_cv['nom'])) {
     $pdf->SetFont('Arial', 'B', 14);

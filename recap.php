@@ -168,10 +168,6 @@ $document = isset($_SESSION['document']) ? $_SESSION['document'] : 'Aucun fichie
         <form action="button_modifier.php" method="POST" style="display: inline;">
             <button type="submit">Modifier</button>
         </form>
-        <form action="formulaire_CV.php" method="POST" style="display: inline;">
-            <button type="submit">Generer CV</button>
-        </form>
-        
     </div>
 </body>
 </html>

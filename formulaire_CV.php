@@ -16,6 +16,18 @@ session_start();
 <form action="button_CV.php" method="post" enctype="multipart/form-data">
 
     <h2>Informations personnelles</h2>
+    <label for="nom">Nom :</label>
+    <input type="text" id="nom" name="nom" required><br>
+
+    <label for="prenom">Prenom :</label>
+    <input type="text" id="prenom" name="prenom" required><br>
+
+    <label for="email">Email :</label>
+    <input type="email" id="email" name="email" required><br>
+
+    <label for="tel_num">Telephone :</label>
+    <input type="text" id="tel_num" name="tel_num" required><br>
+
     <label for="adresse">Adresse :</label>
     <input type="text" id="adresse" name="adresse" required><br>
 
@@ -33,7 +45,7 @@ session_start();
     <div id="formations-container">
         <div>
             <input type="text" name="formations[titre][]" placeholder="Diplôme / Formation" required>
-            <input type="text" name="formations[description][]" placeholder="Description ">
+            <input type="text" name="formations[description][]" placeholder="Description">
         </div>
     </div>
     <button type="button" onclick="addFormation()">Ajouter une formation</button>
@@ -89,7 +101,7 @@ function addFormation() {
     document.getElementById('formations-container').insertAdjacentHTML('beforeend', `
         <div>
             <input type="text" name="formations[titre][]" placeholder="Diplome / Formation" required>
-            <input type="text" name="formations[description][]" placeholder="Description ">
+            <input type="text" name="formations[description][]" placeholder="Description">
         </div>`);
 }
 function addStage() {
