@@ -1,6 +1,7 @@
 <?php
 session_start();
 require('fpdf.php');
+require('cv_db.php');
 
 $nom       = $_POST['nom'] ?? '';
 $prenom    = $_POST['prenom'] ?? '';
@@ -16,6 +17,7 @@ $competences  = $_POST['competences'] ?? [];
 $langues_cv   = $_POST['langues'] ?? [];     
 $centres      = $_POST['centres'] ?? [];     
 
+$photo = '';
 if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
     $uploadDir = 'uploads_photo/';
     if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
@@ -26,11 +28,42 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
 
     if (move_uploaded_file($fileTmpPath, $destPath)) {
         $photo = $destPath;
-    } else {
-        $photo = '';
     }
 }
 
+// Sauvegarde du cv dans la BD
+$pdo = get_pdo();
+
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM cv WHERE email = :email");
+$stmt->execute([':email' => $email]);
+$emailExists = $stmt->fetchColumn();
+
+if ($emailExists) {
+    die("Erreur : un CV avec cet email existe déjà !");
+}
+
+$stmt = $pdo->prepare("
+    INSERT INTO cv (email, nom, prenom, telephone, adresse, ville, linkedin, photo, formations, stages, competences, langues, centres)
+    VALUES (:email, :nom, :prenom, :telephone, :adresse, :ville, :linkedin, :photo, :formations, :stages, :competences, :langues, :centres)
+");
+
+$stmt->execute([
+    ':email'       => $email,
+    ':nom'         => $nom,
+    ':prenom'      => $prenom,
+    ':telephone'   => $tel_num,
+    ':adresse'     => $adresse,
+    ':ville'       => $ville,
+    ':linkedin'    => $linkedin,
+    ':photo'       => $photo,
+    ':formations'  => json_encode($formations, JSON_UNESCAPED_UNICODE),
+    ':stages'      => json_encode($stages, JSON_UNESCAPED_UNICODE),
+    ':competences' => json_encode($competences, JSON_UNESCAPED_UNICODE),
+    ':langues'     => json_encode($langues_cv, JSON_UNESCAPED_UNICODE),
+    ':centres'     => json_encode($centres, JSON_UNESCAPED_UNICODE)
+]);
+
+// Génération du PDF
 $pdf = new FPDF();
 $pdf->AddPage();
 $pdf->SetFont('Arial', 'B', 16);

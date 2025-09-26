@@ -13,7 +13,7 @@ session_start();
 
 <h1>Complétez votre CV</h1>
 
-<form action="button_CV.php" method="post" enctype="multipart/form-data">
+<form action="button_cv.php" method="post" enctype="multipart/form-data">
 
     <h2>Informations personnelles</h2>
     <label for="nom">Nom :</label>
