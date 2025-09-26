@@ -41,6 +41,7 @@ $cover_letter = $prefill ? ($_SESSION['cover_letter'] ?? '') : '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulaire Unifié</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <h1>Formulaire unique: Fiche + CV</h1>

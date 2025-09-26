@@ -1,0 +1,89 @@
+/* Base reset */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+  background: #f7f8fb;
+  color: #1f2328;
+  line-height: 1.5;
+}
+
+/* Layout helpers */
+.container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.06);
+  padding: 24px;
+}
+
+/* Typography */
+h1 { font-size: 24px; margin: 0 0 12px; }
+h2 { font-size: 20px; margin: 24px 0 8px; }
+h3 { font-size: 18px; margin: 16px 0 8px; }
+p { margin: 0 0 12px; color: #4f566b; }
+
+/* Links & buttons */
+a { color: #0d5bd7; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.button, button, input[type="submit"], .btn {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #d0d7de;
+  background: #fff;
+  color: #0d5bd7;
+  font-weight: 600;
+  cursor: pointer;
+  transition: box-shadow .15s ease, transform .02s ease;
+}
+.button:hover, button:hover, input[type="submit"]:hover, .btn:hover {
+  box-shadow: 0 4px 16px rgba(13,91,215,0.15);
+}
+.button:active, button:active, input[type="submit"]:active, .btn:active { transform: translateY(1px); }
+.button.primary, .btn.primary, input[type="submit"].primary {
+  background: #0d5bd7; color: #fff; border-color: #0d5bd7;
+}
+
+/* Forms */
+form { margin: 16px 0; }
+label { font-weight: 600; }
+input[type="text"], input[type="email"], input[type="number"], input[type="tel"], input[type="url"], textarea, select {
+  width: 100%;
+  max-width: 520px;
+  padding: 10px 12px;
+  border: 1px solid #d0d7de;
+  border-radius: 8px;
+  background: #fff;
+}
+textarea { resize: vertical; }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; background: #fff; }
+th, td { padding: 10px 12px; text-align: left; }
+thead th { background: #f0f3f9; }
+tr { border-bottom: 1px solid #e6ebf1; }
+
+/* Utility */
+.muted { color: #6b7280; }
+.spacer { height: 16px; }
+.stack { display: grid; gap: 12px; }
+
+/* Admin table tweaks */
+.table-actions form { display: inline; }
+
+/* Responsive */
+@media (min-width: 640px) {
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+}
+
+
