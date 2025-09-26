@@ -136,34 +136,6 @@ $cover_letter = $prefill ? ($_SESSION['cover_letter'] ?? '') : '';
             <p>Si vous voulez le remplacer, choisissez un nouveau fichier :</p>
         <?php endif; ?>
         <input type="file" name="document">
-
-        <hr>
-        <h2>Candidature de Stage</h2>
-        <table>
-            <tr>
-                <td><label for="internship_type">Type de stage :</label></td>
-                <td>
-                    <select id="internship_type" name="internship_type" required>
-                        <?php
-                        $types = ['Observation','PFA','PFE','Autre'];
-                        foreach ($types as $t) {
-                            $sel = ($internship_type === $t) ? 'selected' : '';
-                            echo '<option value="'.htmlspecialchars($t).'" '.$sel.'>'.htmlspecialchars($t).'</option>';
-                        }
-                        ?>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td><label for="internship_duration">Durée (semaines ou dates) :</label></td>
-                <td><input type="text" id="internship_duration" name="internship_duration" value="<?php echo htmlspecialchars($internship_duration); ?>" placeholder="8 semaines, Juin-Août, ..." required></td>
-            </tr>
-            <tr>
-                <td style="vertical-align: top;"><label for="cover_letter">Lettre de motivation :</label></td>
-                <td><textarea id="cover_letter" name="cover_letter" rows="6" cols="60" placeholder="Expliquez vos motivations..." required><?php echo htmlspecialchars($cover_letter); ?></textarea></td>
-            </tr>
-        </table>
-        
         <hr>
         <h2>Informations Complémentaires (Fiche)</h2>
         <h4>Projets réalisés :</h4>
@@ -259,7 +231,32 @@ $cover_letter = $prefill ? ($_SESSION['cover_letter'] ?? '') : '';
             <?php endfor; ?>
         </div>
         <button type="button" onclick="addLangueCV()">Ajouter une langue</button>
-
+        <hr>
+        <h2>Candidature de Stage</h2>
+        <table>
+            <tr>
+                <td><label for="internship_type">Type de stage :</label></td>
+                <td>
+                    <select id="internship_type" name="internship_type" required>
+                        <?php
+                        $types = ['Observation','PFA','PFE','Autre'];
+                        foreach ($types as $t) {
+                            $sel = ($internship_type === $t) ? 'selected' : '';
+                            echo '<option value="'.htmlspecialchars($t).'" '.$sel.'>'.htmlspecialchars($t).'</option>';
+                        }
+                        ?>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="internship_duration">Durée (semaines ou dates) :</label></td>
+                <td><input type="text" id="internship_duration" name="internship_duration" value="<?php echo htmlspecialchars($internship_duration); ?>" placeholder="8 semaines, Juin-Août, ..." required></td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top;"><label for="cover_letter">Lettre de motivation :</label></td>
+                <td><textarea id="cover_letter" name="cover_letter" rows="6" cols="60" placeholder="Expliquez vos motivations..." required><?php echo htmlspecialchars($cover_letter); ?></textarea></td>
+            </tr>
+        </table>
         <hr>
         <input type="submit" name="envoyer" value="Envoyer">
     </form>
