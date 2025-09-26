@@ -8,9 +8,11 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulaire CV</title>
+    <link rel="stylesheet" href="../partie1/styles.css">
 </head>
 <body>
 
+<main>
 <h1>Complétez votre CV</h1>
 
 <form action="button_cv.php" method="post" enctype="multipart/form-data">
@@ -95,6 +97,7 @@ session_start();
 
     <input type="submit" value="Generer mon CV">
 </form>
+</main>
 
 <script>
 function addFormation() {

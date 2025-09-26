@@ -57,8 +57,10 @@ $document = isset($_SESSION['document']) ? $_SESSION['document'] : 'Aucun fichie
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Récapitulatif</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <main>
     <h1>Fiche de Renseignements - Récapitulatif</h1>
     <hr>
 
@@ -161,7 +163,7 @@ $document = isset($_SESSION['document']) ? $_SESSION['document'] : 'Aucun fichie
     </table>
     <hr>
 
-    <div>
+    <div class="actions-inline">
         <form action="button_valider.php" method="POST" style="display: inline;">
             <button type="submit">Valider (.txt)</button>
         </form>
@@ -169,5 +171,6 @@ $document = isset($_SESSION['document']) ? $_SESSION['document'] : 'Aucun fichie
             <button type="submit">Modifier</button>
         </form>
     </div>
+    </main>
 </body>
 </html>

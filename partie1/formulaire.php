@@ -32,8 +32,10 @@ if (isset($_POST['reset_session'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fiche de Renseignements</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <main>
     <h2>Fiche de Renseignements</h2>
     <hr>
     
@@ -152,7 +154,7 @@ if (isset($_POST['reset_session'])) {
         <input type="file" name="document"><br>
 
         <?php if (!isset($_GET['value'])) : ?>
-            <button type="button" onclick="showAdditionalFields()">Suivant</button>
+            <button type="button" onclick="showAdditionalFields()" style="margin-top: 3px;">Suivant</button>
         <?php endif; ?>
 
         <!-- Section Informations Complémentaires -->
@@ -224,7 +226,7 @@ if (isset($_POST['reset_session'])) {
         </div>
     </form>
     <form method="post">
-    <input type="submit" name="reset_session" value="Réinitialiser">
+    <input type="submit" name="reset_session" value="Réinitialiser" style="margin-top: 3px;">
     </form>
 
     <script>
@@ -342,5 +344,6 @@ if (isset($_POST['reset_session'])) {
             });
         });
     </script>
+    </main>
 </body>
 </html>
